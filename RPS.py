@@ -1,20 +1,26 @@
 import random
 import math
 rounds= 5
+tied_points = 0
+won_points = 0
+lost_points = 0
+who_won = ""
+Round = 1
+winner = ""
 for rounds in range(rounds):
-    user_move = input("enter either r, s or p to select your move ->").lower()
+    while True:
+        user_move = input("enter either r, s or p to select your move ->").lower()
+        if user_move == "r" or user_move== "s" or user_move == "p":
+            print("valid choice")
+            break
+        else:
+            print("invalid letter please retry")
 
-
-    if user_move == "r" or user_move== "s" or user_move == "p":
-        print("valid choice")
-    else:
-        print("invalid letter please retry")
-        exit()
-    comp_moves = ["r", "p", "s"] 
+        comp_moves = ["r", "p", "s"] 
 
     move = random.choice(comp_moves) 
 
-
+    print(f"ROUND({Round})")
     if user_move == "p":
         moving1 = "paper"
     if user_move == "r":
@@ -52,10 +58,18 @@ for rounds in range(rounds):
         who_won = "tie"
      
     if who_won == "player" :
-        won_points =+ 1
+        won_points += 1
     elif who_won == "computer":
-        lost_points =+ 1
+        lost_points += 1
     elif who_won == "tie":
-        tied_points =+ 1
+        tied_points += 1
     print(f"wins({won_points}) losses({lost_points}) ties({tied_points})")
+    Round += 1
+if won_points > lost_points:
+    winner = ("user is the winner")
+elif won_points < lost_points:
+    winner = ("computer is the winner")
+elif won_points == lost_points:
+    winner = ("the user and the computer ended in a tie")
+print(f"user won {won_points} point and the computer won {lost_points} points meaning {winner}")
 
