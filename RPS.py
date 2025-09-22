@@ -1,13 +1,13 @@
 import random
 import math
-rounds= 5
-tied_points = 0
-won_points = 0
-lost_points = 0
-who_won = ""
-Round = 1
-winner = ""
-for rounds in range(rounds):
+
+
+def get_valid_input():
+    """
+    this function will have the loop that prompts the user for an r,p, or s 
+    and then it will return that string trimmed and lowercased once it has it
+
+    """
     while True:
         user_move = input("enter either r, s or p to select your move ->").lower()
         if user_move == "r" or user_move== "s" or user_move == "p":
@@ -15,12 +15,21 @@ for rounds in range(rounds):
             break
         else:
             print("invalid letter please retry")
-
-        comp_moves = ["r", "p", "s"] 
+                
+    comp_moves = ["r", "p", "s"] 
 
     move = random.choice(comp_moves) 
 
-    print(f"ROUND({Round})")
+    
+def convert_letter_to_word(letter):
+    """ 
+    
+    this function will accept a string (r/p/s) and return “rock”, “paper” or “scissors” respectively.
+    
+
+    """
+    user_move = ""
+    move = ""
     if user_move == "p":
         moving1 = "paper"
     if user_move == "r":
@@ -34,7 +43,16 @@ for rounds in range(rounds):
     if move == "s":
         moving2= "sissors"
 
+def print_round_result(user, comp, result):
+    moving1 = ""
+    moving2 = ""
+    move = ""
+    who_won = ""
+    """
+    
+    this function will just print the result of the round.   
 
+    """
     if move == "r" and user_move == "p":
         print(f"computer used {moving2} while user used {moving1}, user won") 
         who_won = "player"
@@ -56,7 +74,13 @@ for rounds in range(rounds):
     elif move == user_move:
         print("computer used the same one as user a tie has been issued")
         who_won = "tie"
-     
+
+def print_series_result(user_wins, comp_wins,):
+    who_won = ""
+    """
+    this function will determine the winner and print the appropriate message.
+    
+    """
     if who_won == "player" :
         won_points += 1
     elif who_won == "computer":
@@ -65,11 +89,31 @@ for rounds in range(rounds):
         tied_points += 1
     print(f"wins({won_points}) losses({lost_points}) ties({tied_points})")
     Round += 1
-if won_points > lost_points:
-    winner = ("user is the winner")
-elif won_points < lost_points:
-    winner = ("computer is the winner")
-elif won_points == lost_points:
-    winner = ("the user and the computer ended in a tie")
-print(f"user won {won_points} point and the computer won {lost_points} points meaning {winner}")
+    if won_points > lost_points:
+        winner = ("user is the winner")
+    elif won_points < lost_points:
+        winner = ("computer is the winner")
+    elif won_points == lost_points:
+        winner = ("the user and the computer ended in a tie")
+        print(f"ROUND({Round})")
+    print(f"user won {won_points} points and the computer won {lost_points} points meaning {winner}")
 
+def main():
+    tied_points = 0
+    rounds= 5
+    won_points = 0
+    lost_points = 0
+    who_won = ""
+    Round = 1
+    winner = ""
+    user_move = ""
+    move = ""
+    who_won
+    for rounds in range(rounds):
+        get_valid_input()
+        convert_letter_to_word(user_move)
+        print_round_result(user_move, move, who_won)
+        print_series_result(won_points, lost_points)
+
+if __name__ == "__main__":
+    main()
