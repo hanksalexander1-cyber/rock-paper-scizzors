@@ -1,119 +1,92 @@
 import random
-import math
-
 
 def get_valid_input():
     """
-    this function will have the loop that prompts the user for an r,p, or s 
-    and then it will return that string trimmed and lowercased once it has it
-
+    Prompt the user for a valid input: 'r', 'p', or 's'.
+    Returns the input in lowercase and trimmed.
     """
     while True:
-        user_move = input("enter either r, s or p to select your move ->").lower()
-        if user_move == "r" or user_move== "s" or user_move == "p":
-            print("valid choice")
-            break
+        choice = input("Enter either 'r', 'p', or 's' to select your move -> ").strip().lower()
+        if choice in ['r', 'p', 's']:
+            return choice
         else:
-            print("invalid letter please retry")
-                
-    comp_moves = ["r", "p", "s"] 
+            print("Invalid letter. Please retry.")
 
-    move = random.choice(comp_moves) 
-
-    
 def convert_letter_to_word(letter):
-    """ 
-    
-    this function will accept a string (r/p/s) and return “rock”, “paper” or “scissors” respectively.
-    
-
     """
-    user_move = ""
-    move = ""
-    if user_move == "p":
-        moving1 = "paper"
-    if user_move == "r":
-        moving1 = "rock"
-    if user_move == "s":
-        moving1 = "sissors"
-    if move == "p":
-        moving2= "paper"
-    if move == "r":
-        moving2= "rock"
-    if move == "s":
-        moving2= "sissors"
+    Convert a letter to the full word version.
+    r = rock, p = paper, s = scissors.
+    """
+    if letter == 'r':
+        return "rock"
+    elif letter == 'p':
+        return "paper"
+    elif letter == 's':
+        return "scissors"
+    else:
+        raise ValueError("Invalid value passed in. Must be 'r', 'p', or 's'.")
+
+def determine_outcome(user, comp):
+    """
+    Determine if the user won, lost, or tied based on the rules.
+    Returns 'won', 'lost', or 'tied'.
+    """
+    if user == comp:
+        return "tied"
+    elif (user == 'r' and comp == 's') or \
+         (user == 'p' and comp == 'r') or \
+         (user == 's' and comp == 'p'):
+        return "won"
+    else:
+        return "lost"
 
 def print_round_result(user, comp, result):
-    moving1 = ""
-    moving2 = ""
-    move = ""
-    who_won = ""
     """
-    
-    this function will just print the result of the round.   
+    Print the result of the round.
+    """
+    user_word = convert_letter_to_word(user)
+    comp_word = convert_letter_to_word(comp)
+    print(f"Computer used {comp_word} while user used {user_word}. Result: {result.upper()}.")
 
+def print_series_results(user_wins, comp_wins, ties):
     """
-    if move == "r" and user_move == "p":
-        print(f"computer used {moving2} while user used {moving1}, user won") 
-        who_won = "player"
-    elif move == "p" and user_move == "s":
-        print(f"computer used {moving2} while user used {moving1}, user won") 
-        who_won = "player"
-    elif move == "s" and user_move == "r":
-        print(f"computer used {moving2} while user used {moving1}, user won")
-        who_won = "player"
-    elif move == "p" and user_move == "r":
-        print(f"computer used {moving2} while user used {moving1}, user lost") 
-        who_won = "computer"
-    elif move == "s" and user_move == "p":
-        print(f"computer used {moving2} while user used {moving1}, user lost")
-        who_won = "computer" 
-    elif move == "r" and user_move == "s":
-        print(f"computer used {moving2} while user used {moving1}, user lost")
-        who_won = "computer" 
-    elif move == user_move:
-        print("computer used the same one as user a tie has been issued")
-        who_won = "tie"
-
-def print_series_result(user_wins, comp_wins,):
-    who_won = ""
+    Print the final result after all rounds are completed.
     """
-    this function will determine the winner and print the appropriate message.
-    
-    """
-    if who_won == "player" :
-        won_points += 1
-    elif who_won == "computer":
-        lost_points += 1
-    elif who_won == "tie":
-        tied_points += 1
-    print(f"wins({won_points}) losses({lost_points}) ties({tied_points})")
-    Round += 1
-    if won_points > lost_points:
-        winner = ("user is the winner")
-    elif won_points < lost_points:
-        winner = ("computer is the winner")
-    elif won_points == lost_points:
-        winner = ("the user and the computer ended in a tie")
-        print(f"ROUND({Round})")
-    print(f"user won {won_points} points and the computer won {lost_points} points meaning {winner}")
+    print(f"Final Score -> User Wins: {user_wins}, Computer Wins: {comp_wins}, Ties: {ties}")
+    if user_wins > comp_wins:
+        print("User is the winner of the series!")
+    elif user_wins < comp_wins:
+        print("Computer is the winner of the series!")
+    else:
+        print("The user and the computer ended in a tie!")
 
 def main():
-    tied_points = 0
-    rounds= 5
-    won_points = 0
-    lost_points = 0
-    who_won = ""
-    Round = 1
-    winner = ""
-    user_move = ""
-    move = ""
-    who_won
-    for rounds in range(rounds):
-        get_valid_input()
-        convert_letter_to_word(user_move)
-        print_round_result(user_move, move, who_won)
-        print_series_result(won_points, lost_points)
+    """
+    Main function to run the Rock, Paper, Scissors game.
+    """
+    rounds = 5
+    user_wins = 0
+    comp_wins = 0
+    ties = 0
+
+    for round_num in range(1, rounds + 1):
+        print(f"\nROUND {round_num}")
+        user_move = get_valid_input()
+        comp_move = random.choice(['r', 'p', 's'])
+        result = determine_outcome(user_move, comp_move)
+        print_round_result(user_move, comp_move, result)
+
+        if result == "won":
+            user_wins += 1
+        elif result == "lost":
+            comp_wins += 1
+        else:
+            ties += 1
+
+        print(f"Score -> User Wins: {user_wins}, Computer Wins: {comp_wins}, Ties: {ties}")
+
+    print("\nFINAL RESULTS")
+    print_series_results(user_wins, comp_wins, ties)
 
 if __name__ == "__main__":
     main()
