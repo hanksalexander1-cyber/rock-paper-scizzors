@@ -22,7 +22,7 @@ def main_code():
 
 def retry():
     """"""
-    confirm = input("would you like to retry y/n -> ")
+    confirm = input("would you like to retry y/n -> ").lower().strip()
     if confirm == "y":
         while True:
             main_code()
