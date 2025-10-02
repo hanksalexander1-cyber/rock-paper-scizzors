@@ -4,7 +4,6 @@ def main_code():
     computer_num = random.randint(1, 100)
     tries = 1
     while True:
-        print(computer_num)
         try:
             user_num = int(input("Input a number between 1 and 100 -> "))
         except ValueError:
